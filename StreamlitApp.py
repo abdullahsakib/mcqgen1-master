@@ -16,10 +16,10 @@ from langchain.chains import SequentialChain
 from langchain.callbacks import get_openai_callback
 import PyPDF2
 
-with open ("C:\Users\User\Desktop\mcqgen1-master\Response.json",'r') as file:
+with open ("C:\\Users\\User\\Desktop\\mcqgen1-master\\Response.json",'r') as file:
     RESPONSE_JSON = json.load(file)
 
-st.title("MCQs Creator Application with LangChain 88 ")
+st.title("MCQs Creator Application with LangChain ")
 with st.form("user_inputs"):
     #File Upload
     uploaded_file=st.file_uploader("Uplaod a PDF or txt file")
@@ -60,5 +60,15 @@ with st.form("user_inputs"):
                     if quiz is not None:
                         table_data=get_table_data(quiz) 
                         if table_data is not None: 
-                            df=pd.DataFrame(table_data)
+                            df=pd.DataFrame(table_data)    
+                            df.index=df.index+1
+                            st.table(df)
+                            #Display the review in atext box as well 
+                            st.text_area(label="Review", value=response["review"])
+                        else:
+                            st.error("Error in the table data")
+                    
+                    else:
+                        st.write(response)
             
+                            
